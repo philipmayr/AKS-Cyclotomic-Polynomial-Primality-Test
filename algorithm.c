@@ -73,6 +73,23 @@ int test_perfect_exponentiality(int n)
     return 0;
 }
 
+int get_lesser_one(int a, int b)
+{
+    if (a < b) return a; else return b;
+}
+
+int find_totient(int n)
+{
+    int totient = 1;
+    
+    for (int i = 2; i < n; i++)
+    {
+        if (find_greatest_common_divisor(i, n) == 1) totient++;
+    }
+    
+    return totient;
+}
+
 int test_primality(int prime_candidate)
 {
     if (prime_candidate < 2 || 
@@ -85,64 +102,67 @@ int test_primality(int prime_candidate)
     int binary_logarithm_of_prime_candidate = log2(prime_candidate);
     int square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
     
-    int base = 1;
-    int multiplicative_order = find_multiplicative_order(base, prime_candidate);
+    int modulus = 1;
+    int multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
     
     while (multiplicative_order < square_of_binary_logarithm_of_prime_candidate)
     {
-        base++;
-        multiplicative_order = find_multiplicative_order(base, prime_candidate);
+        modulus++;
+        multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
     }
     
-    if (find_greatest_common_divisor(base, prime_candidate) != 1) return 0;
+    if (find_greatest_common_divisor(modulus, prime_candidate) != 1) return 0;
     
-    if (prime_candidate <= base) return 1;
+    if (prime_candidate <= modulus) return 1;
     
-    return 0;
+    int upper_bound = get_lesser_one(modulus, prime_candidate - 1);
+    
+    for (int a = 2; a < upper_bound; a++)
+    {
+        if ((prime_candidate % a) != 0) return 0;
+    }
+    
+    upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
+    
+    for (int a = 1; a < upper_bound; a++)
+    {
+        // TODO
+        
+        return 0;
+    }
+    
+    return 1;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     int prime_candidate;
-
-    if (argc > 1)
-    {
-        for (int argument = 1; argument < argc; argument++)
-        {
-            prime_candidate = atoi(argv[argument]);
-            
-            if (test_primality(prime_candidate, 12)) printf("%d is a prime number.", prime_candidate);
-            else printf("%d is not a prime number.", prime_candidate);
-
-            printf("\n\n");
-        }
-    }
     
     for (;;)
     {    
-        printf("Enter an integer to test for primality: ");
+        printf("Enter an odd candidate integer to test for primality: ");
         
         // integer input validation
         // https://jackstromberg.com/2013/02/how-to-validate-numeric-integer-input-in-c/
         
         int input, status, temp;
 
-    	  status = scanf("%d", &input);
+    	status = scanf("%d", &input);
     	
-      	while(status != 1)
-      	{
-              while((temp = getchar()) != EOF && temp != '\n');
-              
-              printf("Invalid input.");
-              printf("\n\n");
-              printf("Enter an integer to test for primality: ");
-              
-              status = scanf("%d", &input);
-      	}
+    	while(status != 1)
+    	{
+            while((temp = getchar()) != EOF && temp != '\n');
+            
+            printf("Invalid input.");
+            printf("\n\n");
+            printf("Enter an odd candidate integer to test for primality: ");
+            
+            status = scanf("%d", &input);
+    	}
     
-    	  prime_candidate = input;
+    	prime_candidate = input;
     	
-    	  if (test_primality(prime_candidate)) printf("%d is a prime number.", prime_candidate);
+    	if (test_primality(prime_candidate)) printf("%d is a prime number.", prime_candidate);
         else printf("%d is not a prime number.", prime_candidate);
         
         printf("\n\n");
