@@ -112,15 +112,15 @@ int test_primality(int prime_candidate)
     }
     
     if (find_greatest_common_divisor(modulus, prime_candidate) != 1) return 0;
-    
-    if (prime_candidate <= modulus) return 1;
-    
+        
     int upper_bound = get_lesser_one(modulus, prime_candidate - 1);
     
     for (int a = 2; a < upper_bound; a++)
     {
         if ((prime_candidate % a) != 0) return 0;
     }
+
+    if (prime_candidate <= modulus) return 1;
     
     upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
     
