@@ -99,8 +99,8 @@ int test_primality(int prime_candidate)
         return 0;
     }
     
-    int binary_logarithm_of_prime_candidate = log2(prime_candidate);
-    int square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
+    float binary_logarithm_of_prime_candidate = log2(prime_candidate);
+    float square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
     
     int modulus = 1;
     int multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
@@ -111,16 +111,18 @@ int test_primality(int prime_candidate)
         multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
     }
     
+    printf("\n%d\n", modulus);
+    
     if (find_greatest_common_divisor(modulus, prime_candidate) != 1) return 0;
-        
+    
+    if (prime_candidate <= modulus) return 1;
+    
     int upper_bound = get_lesser_one(modulus, prime_candidate - 1);
     
     for (int a = 2; a < upper_bound; a++)
     {
         if ((prime_candidate % a) != 0) return 0;
     }
-
-    if (prime_candidate <= modulus) return 1;
     
     upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
     
