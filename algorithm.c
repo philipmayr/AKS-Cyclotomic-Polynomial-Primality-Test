@@ -73,7 +73,7 @@ int test_perfect_exponentiality(int n)
     return 0;
 }
 
-int get_lesser_one(int a, int b)
+int get_lesser_of_twain(int a, int b)
 {
     if (a < b) return a; else return b;
 }
