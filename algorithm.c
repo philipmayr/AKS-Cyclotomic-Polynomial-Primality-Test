@@ -151,9 +151,9 @@ int main()
 
     	status = scanf("%d", &input);
     	
-    	while(status != 1)
+    	while (status != 1)
     	{
-            while((temp = getchar()) != EOF && temp != '\n');
+            while ((temp = getchar()) != EOF && temp != '\n');
             
             printf("Invalid input.");
             printf("\n\n");
