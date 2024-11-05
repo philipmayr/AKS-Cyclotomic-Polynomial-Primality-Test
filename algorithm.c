@@ -5,7 +5,7 @@
 
 int find_greatest_common_divisor(int a, int b)
 {
-    return ((b) ? find_greatest_common_divisor(b, a % b) : a);
+    return b ? find_greatest_common_divisor(b, a % b) : a;
 }
 
 double find_square_root(double square)
