@@ -50,9 +50,7 @@ int find_multiplicative_order(int modulus, int base)
     if (find_greatest_common_divisor(modulus, base) != 1) return -1;
     
     for (int order = 1; order < modulus; order++)
-    {
         if (exponentiate_modularly(base, order, modulus) == 1) return order;
-    } 
 }
 
 int test_perfect_exponentiality(int n)
@@ -76,22 +74,19 @@ int get_lesser_of_twain(int a, int b)
     return ((a < b) ? a : b);
 }
 
-int find_totient(int n)
+int find_totient(int number)
 {
     int totient = 1;
     
-    for (int i = 2; i < n; i++)
-    {
-        if (find_greatest_common_divisor(i, n) == 1) totient++;
-    }
+    for (int coprime_candidate_iterator = 2; coprime_candidate_iterator < number; coprime_candidate_iterator++)
+        if (find_greatest_common_divisor(coprime_candidate_iterator, number) == 1) totient++;
     
     return totient;
 }
 
 int test_primality(int prime_candidate)
 {
-    if (~prime_candidate & 1 || prime_candidate < 2 || test_perfect_exponentiality(prime_candidate))
-        return 0;
+    if (~prime_candidate & 1 || prime_candidate < 2 || test_perfect_exponentiality(prime_candidate)) return 0;
     
     float binary_logarithm_of_prime_candidate = log2(prime_candidate);
     float square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
@@ -105,8 +100,6 @@ int test_primality(int prime_candidate)
         multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
     }
     
-    printf("\n%d\n", modulus);
-    
     if (find_greatest_common_divisor(modulus, prime_candidate) != 1) return 0;
     
     if (prime_candidate <= modulus) return 1;
@@ -114,9 +107,7 @@ int test_primality(int prime_candidate)
     int upper_bound = get_lesser_of_twain(modulus, prime_candidate - 1);
     
     for (int a = 2; a < upper_bound; a++)
-    {
         if (prime_candidate % a) return 0;
-    }
     
     upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
     
