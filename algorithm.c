@@ -15,12 +15,11 @@ int exponentiate(int base, int index)
     if (index == 0) return power;
     if (index == 1) return base;
     
-    while (index > 0)
+    while (index >>= 1)
     {
         if (index & 1) power *= base;
         
         base *= base;
-        index >>= 1;
     }
     
     return power;    
@@ -34,12 +33,11 @@ int exponentiate_modularly(int base, int index, int modulus)
     
     if (base == 0) return 0;
     
-    while (index > 0)
+    while (index >>= 1)
     {
         if (index & 1) residue = (residue * base) % modulus;
         
         base = (base * base) % modulus;
-        index >>= 1;
     }
     
     return residue;    
@@ -53,11 +51,20 @@ int find_multiplicative_order(int modulus, int base)
         if (exponentiate_modularly(base, order, modulus) == 1) return order;
 }
 
+int find_binary_logarithm(int power)
+{
+    int exponent = 0;
+
+    while (power >>= 1) exponent++;
+
+    return exponent;
+}
+
 int test_perfect_exponentiality(int n)
 {
     for (int k = 2; k <= n; k++)
     {
-        for (int i = 2; i <= log2(n); i++)
+        for (int i = 2; i <= find_binary_exponent(n); i++)
         {
             int power = exponentiate(k, i);
             
