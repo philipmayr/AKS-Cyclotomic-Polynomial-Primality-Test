@@ -27,7 +27,7 @@ int exponentiate(int base, int index)
     if (index == 0) return power;
     if (index == 1) return base;
     
-    while (index > 0)
+    while (index)
     {
         if (index & 1) power *= base;
         
@@ -47,7 +47,7 @@ int exponentiate_modularly(int base, int index, int modulus)
     
     if (base == 0) return 0;
     
-    while (index > 0)
+    while (index)
     {
         if (index & 1) residue = (residue * base) % modulus;
         
