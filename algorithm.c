@@ -5,9 +5,7 @@
 
 int find_greatest_common_divisor(int a, int b)
 {
-    if (b == 0) return a;
-    
-    return find_greatest_common_divisor(b, a % b);
+    return ((b == 0) ? a : find_greatest_common_divisor(b, a % b));
 }
 
 int exponentiate(int base, int index)
