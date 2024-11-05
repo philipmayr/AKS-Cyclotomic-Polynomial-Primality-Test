@@ -8,6 +8,18 @@ int find_greatest_common_divisor(int a, int b)
     return ((b) ? find_greatest_common_divisor(b, a % b) : a);
 }
 
+double find_square_root(double square)
+{
+    if (square < 1) return 0;
+    
+    double root = square / 3;
+    
+    for (int i = 0; i < sizeof (double) * 4; i++)
+        root = (root + (square / root)) / 2;
+        
+    return root;
+}
+
 int exponentiate(int base, int index)
 {
     int power = 1;
@@ -123,7 +135,7 @@ int test_primality(int prime_candidate)
     for (int a = 2; a < upper_bound; a++)
         if (prime_candidate % a) return 0;
     
-    upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
+    upper_bound = find_square_root(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
     
     for (int a = 1; a < upper_bound; a++)
     {
