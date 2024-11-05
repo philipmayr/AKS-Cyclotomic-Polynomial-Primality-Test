@@ -92,12 +92,8 @@ int find_totient(int n)
 
 int test_primality(int prime_candidate)
 {
-    if (prime_candidate < 2 || 
-        !(prime_candidate & 1) ||
-        test_perfect_exponentiality(prime_candidate) != 0)
-    {
+    if (~prime_candidate & 1 || prime_candidate < 2 || test_perfect_exponentiality(prime_candidate))
         return 0;
-    }
     
     float binary_logarithm_of_prime_candidate = log2(prime_candidate);
     float square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
@@ -117,11 +113,11 @@ int test_primality(int prime_candidate)
     
     if (prime_candidate <= modulus) return 1;
     
-    int upper_bound = get_lesser_one(modulus, prime_candidate - 1);
+    int upper_bound = get_lesser_of_twain(modulus, prime_candidate - 1);
     
     for (int a = 2; a < upper_bound; a++)
     {
-        if ((prime_candidate % a) != 0) return 0;
+        if (prime_candidate % a) return 0;
     }
     
     upper_bound = sqrt(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
