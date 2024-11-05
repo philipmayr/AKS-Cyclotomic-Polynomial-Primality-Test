@@ -61,6 +61,9 @@ int find_binary_logarithm(int power)
 
     while (power >>= 1) exponent++;
 
+    // for (int i = sizeof (i) * 2; i > 0; i >>= 1) 
+    //     if ((1 << (exponent + i)) <= power) exponent += i;
+
     return exponent;
 }
 
