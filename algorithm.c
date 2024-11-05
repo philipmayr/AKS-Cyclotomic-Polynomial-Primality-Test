@@ -75,7 +75,7 @@ int test_perfect_exponentiality(int n)
 
 int get_lesser_of_twain(int a, int b)
 {
-    if (a < b) return a; else return b;
+    return ((a < b) ? a : b);
 }
 
 int find_totient(int n)
