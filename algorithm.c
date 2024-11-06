@@ -117,25 +117,25 @@ int test_primality(int prime_candidate)
     float binary_logarithm_of_prime_candidate = log2(prime_candidate);
     float square_of_binary_logarithm_of_prime_candidate = binary_logarithm_of_prime_candidate * binary_logarithm_of_prime_candidate;
     
-    int modulus = 1;
-    int multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
+    int witness = 1;
+    int multiplicative_order = find_multiplicative_order(witness, prime_candidate);
     
     while (multiplicative_order < square_of_binary_logarithm_of_prime_candidate)
     {
-        modulus++;
-        multiplicative_order = find_multiplicative_order(modulus, prime_candidate);
+        witness++;
+        multiplicative_order = find_multiplicative_order(witness, prime_candidate);
     }
     
-    if (find_greatest_common_divisor(modulus, prime_candidate) != 1) return 0;
+    if (find_greatest_common_divisor(witness, prime_candidate) != 1) return 0;
     
-    if (prime_candidate <= modulus) return 1;
+    if (prime_candidate <= witness) return 1;
     
-    int upper_bound = get_lesser_of_twain(modulus, prime_candidate - 1);
+    int upper_bound = get_lesser_of_twain(witness, prime_candidate - 1);
     
     for (int a = 2; a < upper_bound; a++)
         if (prime_candidate % a) return 0;
     
-    upper_bound = find_square_root(find_totient(modulus)) * binary_logarithm_of_prime_candidate;
+    upper_bound = find_square_root(find_totient(witness)) * binary_logarithm_of_prime_candidate;
     
     for (int a = 1; a < upper_bound; a++)
     {
