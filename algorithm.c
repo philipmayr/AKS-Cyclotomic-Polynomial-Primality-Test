@@ -15,7 +15,7 @@ double find_square_root(double square)
     double root = square / 3;
     
     for (int i = 0; i < sizeof (double) * 4; i++)
-        root = (root + (square / root)) / 2;
+        root = (root + (square / root)) >> 1;
         
     return root;
 }
