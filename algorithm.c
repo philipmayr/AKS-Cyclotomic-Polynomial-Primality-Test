@@ -22,10 +22,11 @@ double find_square_root(double square)
 
 int exponentiate(int base, int index)
 {
-    int power = 1;
-    
-    if (index == 0) return power;
+    if (base == 0) return 0;
+    if (index == 0) return 1;
     if (index == 1) return base;
+
+    int power = 1;
     
     while (index)
     {
@@ -41,11 +42,13 @@ int exponentiate(int base, int index)
 
 int exponentiate_modularly(int base, int index, int modulus)
 {
-    int residue = 1;
-    
-    base %= modulus;
-    
     if (base == 0) return 0;
+    if (index == 0) return 1;
+
+    if (base > modulus) base %= modulus;
+    if (index == 1) return base;
+    
+    int residue = 1;
     
     while (index)
     {
@@ -79,16 +82,16 @@ int find_binary_logarithm(int power)
     return exponent;
 }
 
-int test_perfect_exponentiality(int n)
+int test_perfect_exponentiality(int number)
 {
-    for (int k = 2; k <= n; k++)
+    for (int base = 2; base <= n; base++)
     {
-        for (int i = 2; i <= find_binary_exponent(n); i++)
+        for (int index = 2; index <= find_binary_exponent(number); index++)
         {
-            int power = exponentiate(k, i);
+            int power = exponentiate(base, index);
             
-            if (power > n) break;
-            if (power == n) return 1;
+            if (power > number) break;
+            else if (power == number) return 1;
         }
     }
     
@@ -158,19 +161,19 @@ int main()
         // integer input validation
         // https://jackstromberg.com/2013/02/how-to-validate-numeric-integer-input-in-c/
         
-        int input, status, temp;
+        int input, status, buffer;
 
-    	status = scanf("%d", &input);
+    	status = scanf("%d", & input);
     	
     	while (status != 1)
     	{
-            while ((temp = getchar()) != EOF && temp != '\n');
+            while ((buffer = getchar()) != EOF && buffer != '\n');
             
             printf("Invalid input.");
             printf("\n\n");
             printf("Enter an odd candidate integer to test for primality: ");
             
-            status = scanf("%d", &input);
+            status = scanf("%d", & input);
     	}
     
     	prime_candidate = input;
